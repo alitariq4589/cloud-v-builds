@@ -1,0 +1,51 @@
+node('riscv64_admin') {
+    stage('Clean Workspace') {
+        cleanWs()
+    }
+    stage('Installing Dependencies') {
+        sh '''#!/bin/bash
+            sudo apt update
+            sudo apt-get install build-essential gdb lcov pkg-config libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev lzma lzma-dev tk-dev uuid-dev zlib1g-dev libmpdec-dev
+        '''
+    }
+    stage('Setting Directories') {
+        sh '''#!/bin/bash
+            mkdir installed_binaries
+            git clone https://github.com/python/cpython.git
+        '''
+    }
+    stage('Run system_info') {
+        sh '''#!/bin/bash
+            cat /proc/cpuinfo
+        '''
+    }
+    stage('Run configure') {
+        sh '''#!/bin/bash -l
+            cd cpython
+            ./configure --prefix=$(readlink -f ../installed_binaries)
+        '''
+    }
+    stage('make') {
+        sh '''#!/bin/bash -l
+            cd cpython || exit 1
+            make -j$(nproc)
+            make test
+            make install
+        '''
+    }
+    stage('Test binaries') {
+        sh '''#!/bin/bash -l
+            ./installed_binaries/bin/python3 --version
+        '''
+    }
+    stage('Compress Binaries and transfer to Cloud') {
+        sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
+            sh '''#!/bin/bash -l
+                export FILENAME="python_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
+                tar -cvf ./$FILENAME ./installed_binaries
+                scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/riscv_builds
+                ssh cloud-store 'sudo -u www-data php /var/www/nextcloud/occ files:scan --path="admin/files"'
+            '''
+        }
+    }
+}

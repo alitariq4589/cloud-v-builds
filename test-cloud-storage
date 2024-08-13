@@ -1,0 +1,18 @@
+node('riscv64-admin') {
+    stage('Clean Workspace') {
+        cleanWs()
+    }
+
+    stage('Create File and Transfer') {
+        sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
+            sh '''#!/bin/bash -l
+                source ~/.bashrc
+                export FILENAME="file3.txt"
+                touch "$FILENAME"
+                eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)
+                scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/riscv_builds
+                ssh cloud-store 'sudo -u www-data php /var/www/nextcloud/occ files:scan --path="admin/files"'
+            '''
+        }
+    }
+}
