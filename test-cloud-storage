@@ -10,7 +10,7 @@ node('riscv64-admin') {
                 export FILENAME="file3.txt"
                 touch "$FILENAME"
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)
-                scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/riscv_builds
+                scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/cloud-v-builds
                 ssh cloud-store 'sudo -u www-data php /var/www/nextcloud/occ files:scan --path="admin/files"'
             '''
         }
