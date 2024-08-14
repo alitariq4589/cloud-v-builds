@@ -1,7 +1,7 @@
-# RISC-V CI Pipelines
+# Cloud-V Builds
 This repository contains the CI pipelines which are used for periodically (intervals may change with time) building open-source software tools and libraries for RISC-V.
 
-**All the RISC-V compiled binaries are available at: https://store.cloud-v.co/index.php/s/KsecejcoB9c3kog**  
+**All the RISC-V compiled binaries are available at: https://store.cloud-v.co/index.php/s/GWxkHQ8xb5EpjLX**  
 **The CI builds are public at: https://dash.cloud-v.co/job/cloud-v-builds-folder/**
 
 The infrastructure of the builds can be seen in the following diagram:
