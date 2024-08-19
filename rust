@@ -27,7 +27,7 @@ node('riscv64-admin') {
     }
     stage('Run configure') {
         sh '''#!/bin/bash -l
-            cd cpython
+            cd rust
             ./configure --set install.prefix=$(readlink -f ../installed_binaries)
         '''
     }
