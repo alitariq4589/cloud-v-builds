@@ -29,14 +29,13 @@ node('riscv64-admin') {
     stage('Run configure') {
         sh '''#!/bin/bash -l
             cd rust
-            export RUST_MIN_STACK=16777216
             ./configure --set install.prefix=$(readlink -f ../installed_binaries)
         '''
     }
     stage('make') {
         sh '''#!/bin/bash -l
             cd rust || exit 1
-            ./x.py build && ./x.py install
+            RUST_MIN_STACK=33554432 ./x.py build && ./x.py install
         '''
     }
     stage('Test binaries') {
