@@ -33,7 +33,7 @@ node('riscv64-admin') {
     }
     stage('make') {
         sh '''#!/bin/bash -l
-            export RUST_MIN_STACK=67108864
+            export RUST_MIN_STACK=134217728
             cd rust || exit 1
             ./x.py build && ./x.py install
         '''
