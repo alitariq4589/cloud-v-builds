@@ -29,6 +29,7 @@ node('riscv64-admin') {
     stage('Run configure') {
         sh '''#!/bin/bash -l
             cd rust
+            export RUST_MIN_STACK=16777216
             ./configure --set install.prefix=$(readlink -f ../installed_binaries)
         '''
     }
