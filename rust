@@ -5,7 +5,7 @@ node('riscv64-admin') {
     stage('Installing Dependencies') {
         sh '''#!/bin/bash
             sudo apt-get update
-            sudo apt-get install git curl pkg-config g++ clang++ libssl-dev ninja-build make cmake -y
+            sudo apt-get install git curl pkg-config g++ libssl-dev ninja-build make cmake -y
         '''
     }
     stage('Setting Directories and clone') {
