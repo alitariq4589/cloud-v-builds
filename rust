@@ -11,7 +11,7 @@ node('riscv64-admin') {
     stage('Setting Directories and clone') {
         sh '''#!/bin/bash
             mkdir installed_binaries
-            git config --global http.postBuffer 524288000
+            git config --global http.postBuffer 1048576000
             git clone --depth 1 https://github.com/rust-lang/rust.git
         '''
     }
