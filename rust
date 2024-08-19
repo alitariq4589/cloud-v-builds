@@ -11,9 +11,7 @@ node('riscv64-admin') {
     stage('Setting Directories and clone') {
         sh '''#!/bin/bash
             mkdir installed_binaries
-            git config --global http.version HTTP/1.1
             git clone --branch master --single-branch --depth=1 https://github.com/rust-lang/rust.git
-            git config --global http.version HTTP/2
         '''
     }
     stage('Run system_info') {
