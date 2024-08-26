@@ -47,9 +47,8 @@ node('riscv64-admin') {
     //         ./configure --set install.prefix=$(readlink -f ../installed_binaries)
     //     '''
     // }
-    stage('make') {
+    stage('Build and transfer') {
         sh '''#!/bin/bash -l
-            #export RUST_MIN_STACK=1000000000
             cd ninja || exit
             ./configure.py --bootstrap
             cp ./ninja ../installed_binaries/
