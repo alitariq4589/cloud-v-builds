@@ -2,12 +2,12 @@ node('riscv64-admin') {
     stage('Clean Workspace') {
         cleanWs()
     }
-    // stage('Installing Dependencies') {
-    //     sh '''#!/bin/bash
-    //         sudo apt-get update
-    //         sudo apt-get install git curl pkg-config g++ libssl-dev ninja-build make cmake -y
-    //     '''
-    // }
+    stage('Installing Dependencies') {
+        sh '''#!/bin/bash
+            sudo apt-get update
+            sudo apt-get install autoconf automake autopoint flex gperf graphviz help2man texinfo valgrind -y
+        '''
+    }
     stage('Run system_info') {
         sh '''#!/bin/bash
             echo '============================================================='
@@ -37,21 +37,23 @@ node('riscv64-admin') {
     stage('Setting Directories and clone') {
         sh '''#!/bin/bash
             mkdir installed_binaries
-            git clone --branch master --single-branch --depth=1 https://github.com/ninja-build/ninja.git
+            git clone --branch master --single-branch --depth=1 https://github.com/akimd/bison.git
+            git submodule update --init
         '''
     }
 
-    // stage('Run configure') {
-    //     sh '''#!/bin/bash -l
-    //         cd rust
-    //         ./configure --set install.prefix=$(readlink -f ../installed_binaries)
-    //     '''
-    // }
-    stage('Build and transfer') {
+    stage('Run configure') {
         sh '''#!/bin/bash -l
-            cd ninja || exit
-            ./configure.py --bootstrap
-            cp ./ninja ../installed_binaries/
+            cd bison
+            ./bootstrap
+            ./configure --prefix=$(readlink -f ../installed_binaries)
+        '''
+    }
+    stage('make and make check') {
+        sh '''#!/bin/bash -l
+            make -j$(nproc)
+            make check
+            make install
         '''
     }
     stage('Test binaries') {

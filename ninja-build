@@ -2,12 +2,6 @@ node('riscv64-admin') {
     stage('Clean Workspace') {
         cleanWs()
     }
-    // stage('Installing Dependencies') {
-    //     sh '''#!/bin/bash
-    //         sudo apt-get update
-    //         sudo apt-get install git curl pkg-config g++ libssl-dev ninja-build make cmake -y
-    //     '''
-    // }
     stage('Run system_info') {
         sh '''#!/bin/bash
             echo '============================================================='
@@ -40,13 +34,6 @@ node('riscv64-admin') {
             git clone --branch master --single-branch --depth=1 https://github.com/ninja-build/ninja.git
         '''
     }
-
-    // stage('Run configure') {
-    //     sh '''#!/bin/bash -l
-    //         cd rust
-    //         ./configure --set install.prefix=$(readlink -f ../installed_binaries)
-    //     '''
-    // }
     stage('Build and transfer') {
         sh '''#!/bin/bash -l
             cd ninja || exit
