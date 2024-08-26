@@ -5,7 +5,7 @@ node('riscv64-admin') {
     stage('Installing Dependencies') {
         sh '''#!/bin/bash
             sudo apt-get update
-            sudo apt-get install autoconf automake autopoint flex gperf graphviz help2man texinfo valgrind -y
+            sudo apt-get install autoconf automake autopoint flex gperf graphviz help2man texinfo -y
         '''
     }
     stage('Run system_info') {
@@ -58,17 +58,17 @@ node('riscv64-admin') {
     }
     stage('Test binaries') {
         sh '''#!/bin/bash -l
-            ./installed_binaries/ninja --version
+            ./installed_binaries/bin/bison --version
         '''
     }
     stage('Compress Binaries and transfer to Cloud') {
         sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
             sh '''#!/bin/bash -l
-                export FILENAME="ninja-build_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
+                export FILENAME="bison_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
                 tar -cvf ./$FILENAME ./installed_binaries
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)
-                ssh cloud-store 'mkdir -p /var/www/nextcloud/data/admin/files/cloud-v-builds/ninja-build'
-                scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/cloud-v-builds/ninja-build/
+                ssh cloud-store 'mkdir -p /var/www/nextcloud/data/admin/files/cloud-v-builds/bison'
+                scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/cloud-v-builds/bison/
                 ssh cloud-store 'sudo -u www-data php /var/www/nextcloud/occ files:scan --path="admin/files"'
             '''
         }
