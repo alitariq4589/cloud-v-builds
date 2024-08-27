@@ -38,13 +38,13 @@ node('riscv64-admin') {
         sh '''#!/bin/bash
             mkdir installed_binaries
             git clone --branch master --single-branch --depth=1 https://github.com/akimd/bison.git
-            git submodule update --init
         '''
     }
 
     stage('Run configure') {
         sh '''#!/bin/bash -l
             cd bison
+            git submodule update --init
             ./bootstrap
             ./configure --prefix=$(readlink -f ../installed_binaries)
         '''
