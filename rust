@@ -1,4 +1,4 @@
-node('riscv64-admin1') {
+node('pioneer-1-admin') {
     stage('Clean Workspace') {
         cleanWs()
     }
@@ -11,6 +11,7 @@ node('riscv64-admin1') {
     stage('Setting Directories and clone') {
         sh '''#!/bin/bash
             mkdir installed_binaries
+            mkdir rust_config
             git clone --branch master --single-branch --depth=1 https://github.com/rust-lang/rust.git
         '''
     }
@@ -43,12 +44,11 @@ node('riscv64-admin1') {
     stage('Run configure') {
         sh '''#!/bin/bash -l
             cd rust
-            ./configure --set install.prefix=$(readlink -f ../installed_binaries)
+            ./configure --set install.prefix=$(readlink -f ../installed_binaries) --set install.sysconfdir=$(readlink -f ../rust_config)
         '''
     }
     stage('make') {
         sh '''#!/bin/bash -l
-            #export RUST_MIN_STACK=1000000000
             cd rust || exit
             ./x.py build && ./x.py install
         '''
