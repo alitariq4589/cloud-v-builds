@@ -12,6 +12,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash
             mkdir installed_binaries
             mkdir rust_config
+            git config --global http.version HTTP/1.1
             git clone --branch master --single-branch --depth=1 https://github.com/rust-lang/rust.git
         '''
     }
@@ -51,6 +52,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash -l
             cd rust || exit
             ./x.py build && ./x.py install
+            git config --global http.version HTTP/2
         '''
     }
     stage('Test binaries') {
