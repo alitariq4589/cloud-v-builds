@@ -1,4 +1,4 @@
-node('riscv64-admin') {
+node('pioneer-1-admin') {
     stage('Clean Workspace') {
         cleanWs()
     }
