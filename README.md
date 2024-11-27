@@ -13,3 +13,4 @@ The infrastructure of the builds can be seen in the following diagram:
 ## Contributing
 
 If you find a program that you think should be added for the regular builds, you can create an issue with its name, repository link, etc.
+
