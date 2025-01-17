@@ -50,9 +50,10 @@ node('pioneer-1-admin') {
     }
     stage('make and make check') {
         sh '''#!/bin/bash -l
-            make -j$(nproc)
-            # make check # Takes too much time so I am skipping this
-            make install
+          cd make
+          make -j$(nproc)
+          # make check # Takes too much time so I am skipping this
+          make install
         '''
     }
     stage('Test binaries') {
@@ -66,8 +67,9 @@ node('pioneer-1-admin') {
                 export FILENAME="make_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
                 tar -cvf ./$FILENAME ./installed_binaries
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)
-                ssh cloud-store 'mkdir -p /var/www/nextcloud/data/admin/files/cloud-v-builds/bison'
-                scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/cloud-v-builds/bison/
+                ssh cloud-store 'mkdir -p /var/www/nextcloud/data/admin/files/cloud-v-builds/make'
+                ssh cloud-store 'rm /var/www/nextcloud/data/admin/files/cloud-v-builds/make/*' # Removing older builds
+                scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/cloud-v-builds/make/
                 ssh cloud-store 'sudo -u www-data php /var/www/nextcloud/occ files:scan --path="admin/files"'
             '''
         }

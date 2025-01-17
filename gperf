@@ -5,7 +5,7 @@ node('pioneer-1-admin') {
     stage('Installing Dependencies') {
         sh '''#!/bin/bash
             sudo apt-get update
-            sudo apt-get install texlive -y
+            # sudo apt-get install texlive -y
         '''
     }
     stage('Run system_info') {
@@ -51,6 +51,7 @@ node('pioneer-1-admin') {
     }
     stage('make and make check') {
         sh '''#!/bin/bash -l
+            cd gperf
             make -j$(nproc)
             make install
         '''
