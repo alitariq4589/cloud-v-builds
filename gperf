@@ -66,6 +66,7 @@ node('pioneer-1-admin') {
                 export FILENAME="gperf_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
                 tar -cvf ./$FILENAME ./installed_binaries
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)
+                ssh cloud-store 'rm /var/www/nextcloud/data/admin/files/cloud-v-builds/gperf/*' # Removing older builds
                 ssh cloud-store 'mkdir -p /var/www/nextcloud/data/admin/files/cloud-v-builds/gperf'
                 scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/cloud-v-builds/gperf/
                 ssh cloud-store 'sudo -u www-data php /var/www/nextcloud/occ files:scan --path="admin/files"'
