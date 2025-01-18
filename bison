@@ -59,7 +59,6 @@ node('pioneer-1-admin') {
     stage('make and make check') {
         sh '''#!/bin/bash -l
             make -j$(nproc)
-            # make check # Takes too much time so I am skipping this
             make install
         '''
     }
