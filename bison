@@ -58,6 +58,7 @@ node('pioneer-1-admin') {
     }
     stage('make and make check') {
         sh '''#!/bin/bash -l
+            cd bison
             make -j$(nproc)
             make install
         '''
