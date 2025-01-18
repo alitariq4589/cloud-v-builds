@@ -57,7 +57,7 @@ node('pioneer-1-admin') {
     stage('Run configure') {
         sh '''#!/bin/bash -l
             cd gcc
-            ./configure --prefix=$(readlink -f ../installed_binaries) --disable-multilib --enable-languages=c,c++,fortran,go
+            CFLAGS=-Wno-error ./configure --prefix=$(readlink -f ../installed_binaries) --disable-multilib --enable-languages=c,c++,fortran,go
         '''
     }
     stage('make and make install') {
