@@ -48,11 +48,17 @@ node('pioneer-1-admin') {
         '''
     }
 
-    stage('Run configure') {
+    stage('Run boostrap') {
         sh '''#!/bin/bash -l
             cd bison
             git submodule update --init
             ./bootstrap
+            ./autogen.sh
+        '''
+    }
+    stage('Run configure') {
+        sh '''#!/bin/bash -l
+            cd bison
             ./configure --prefix=$(readlink -f ../installed_binaries)
         '''
     }
