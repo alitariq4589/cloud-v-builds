@@ -11,7 +11,7 @@ node('pioneer-1-admin') {
     stage('Setting Directories and clone') {
         sh '''#!/bin/bash
             mkdir installed_binaries
-            git clone --branch master --single-branch --depth=1 https://github.com/htop-dev/htop.git
+            git clone --branch main --single-branch --depth=1 https://github.com/htop-dev/htop.git
         '''
     }
     stage('Run system_info') {
