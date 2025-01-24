@@ -63,7 +63,7 @@ node('pioneer-1-admin') {
           make install
         '''
     }
-    stage('Test binaries') {
+    stage('Check Version') {
         sh '''#!/bin/bash -l
             ./installed_binaries/bin/make --version
         '''

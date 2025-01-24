@@ -52,7 +52,7 @@ node('pioneer-1-admin') {
           ./all.bash
         '''
     }
-    stage('Test binaries') {
+    stage('Check Version') {
         sh '''#!/bin/bash -l
             ./go/bin/go version
         '''

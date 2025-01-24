@@ -48,7 +48,7 @@ node('pioneer-1-admin') {
             cp ./ninja ../installed_binaries/
         '''
     }
-    stage('Test binaries') {
+    stage('Check Version') {
         sh '''#!/bin/bash -l
             ./installed_binaries/ninja --version
         '''
