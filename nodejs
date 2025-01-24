@@ -53,7 +53,7 @@ node('pioneer-1-admin') {
     stage('Run configure') {
         sh '''#!/bin/bash -l
             cd node
-            ./configure --prefix=$(readlink -f ../installed_binaries) --openssl-no-asm
+            ./configure --prefix=$(readlink -f ../installed_binaries) --openssl-no-asm --dest-cpu=ricsv64
         '''
     }
     stage('make') {
