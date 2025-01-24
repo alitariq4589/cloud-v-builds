@@ -45,7 +45,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash
             mkdir installed_binaries
             git config --global http.version HTTP/1.1
-            git clone --branch master --single-branch --depth=1 https://github.com/nodejs/node.git
+            git clone --branch main --single-branch --depth=1 https://github.com/nodejs/node.git
             
         '''
     }
