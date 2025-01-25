@@ -36,7 +36,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash -l
             set -x
             cd cpython || exit 1
-            make -j$(nproc)
+            make -j32
             //make test
             make install
         '''

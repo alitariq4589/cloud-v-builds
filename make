@@ -60,7 +60,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash -l
             set -x
           cd make
-          make -j$(nproc)
+          make -j32
           # make check # Takes too much time so I am skipping this
           make install
         '''

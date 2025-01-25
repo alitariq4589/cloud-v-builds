@@ -59,7 +59,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash -l
             set -x
             cd htop
-            make -j$(nproc)
+            make -j32
         '''
     }
     stage('make install') {

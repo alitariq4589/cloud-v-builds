@@ -60,7 +60,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash -l
             set -x
           cd cmake
-          make -j$(nproc)
+          make -j32
           make install
         '''
     }
