@@ -64,20 +64,13 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash -l
             set -x
           cd jdk
-          make JOBS=32
+          make JOBS=32 images
         '''
-    }
-    stage('make install') {
-      sh '''#!/bin/bash -l
-        set -x
-        cd jdk
-        make install
-      '''
     }
     stage('Check Version') {
         sh '''#!/bin/bash -l
             set -x
-            ./installed_binaries/bin/java --version
+            ./jdk/build/linux-riscv64-server-release/jdk/bin/java --version
         '''
     }
     stage('Compress Binaries and transfer to Cloud') {
