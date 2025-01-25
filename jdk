@@ -64,7 +64,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash -l
             set -x
           cd jdk
-          make -j32
+          make JOBS=32
         '''
     }
     stage('make install') {
