@@ -46,6 +46,7 @@ node('pioneer-1-admin') {
     stage('Setting Directories and clone') {
         sh '''#!/bin/bash
             set -x
+            curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
             git config --global http.version HTTP/1.1
             python3 bootstrap.py --vcs=git
             git config --global http.version HTTP/2
