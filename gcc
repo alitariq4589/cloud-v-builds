@@ -50,18 +50,21 @@ node('pioneer-1-admin') {
 
     stage('Install Prerequisites') {
         sh '''#!/bin/bash -l
+            set -x
             cd gcc
             ./contrib/download_prerequisites
         '''
     }
     stage('Run configure') {
         sh '''#!/bin/bash -l
+            set -x
             cd gcc
             ./configure --prefix=$(readlink -f ../installed_binaries) --disable-multilib --enable-languages=c,c++,fortran --disable-werror
         '''
     }
     stage('make and make install') {
         sh '''#!/bin/bash -l
+            set -x
           cd gcc
           make -j$(nproc)
           make install
@@ -69,12 +72,14 @@ node('pioneer-1-admin') {
     }
     stage('Check Version') {
         sh '''#!/bin/bash -l
+            set -x
             ./installed_binaries/bin/gcc --version
         '''
     }
     stage('Compress Binaries and transfer to Cloud') {
         sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
             sh '''#!/bin/bash -l
+            set -x
                 export FILENAME="gcc_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
                 tar -cvf ./$FILENAME ./installed_binaries
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)

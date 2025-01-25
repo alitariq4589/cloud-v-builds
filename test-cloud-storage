@@ -6,6 +6,7 @@ node('pioneer-1-admin') {
     stage('Create File and Transfer') {
         sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
             sh '''#!/bin/bash -l
+            set -x
                 source ~/.bashrc
                 export FILENAME="file4.txt"
                 touch "$FILENAME"

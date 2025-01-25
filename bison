@@ -50,6 +50,7 @@ node('pioneer-1-admin') {
 
     stage('Run boostrap') {
         sh '''#!/bin/bash -l
+            set -x
             cd bison
             git submodule update --init
             ./bootstrap
@@ -58,12 +59,14 @@ node('pioneer-1-admin') {
     }
     stage('Run configure') {
         sh '''#!/bin/bash -l
+            set -x
             cd bison
             ./configure --prefix=$(readlink -f ../installed_binaries)
         '''
     }
     stage('make and make check') {
         sh '''#!/bin/bash -l
+            set -x
             cd bison
             make -j$(nproc)
             make install
@@ -71,6 +74,7 @@ node('pioneer-1-admin') {
     }
     stage('Check Version') {
         sh '''#!/bin/bash -l
+            set -x
             ./installed_binaries/bin/bison --version
             ./installed_binaries/bin/yacc --version
         '''
@@ -78,6 +82,7 @@ node('pioneer-1-admin') {
     stage('Compress Binaries and transfer to Cloud') {
         sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
             sh '''#!/bin/bash -l
+            set -x
                 export FILENAME="bison_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
                 tar -cvf ./$FILENAME ./installed_binaries
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)

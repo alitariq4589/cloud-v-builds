@@ -48,18 +48,21 @@ node('pioneer-1-admin') {
     }
     stage('Build') {
         sh '''#!/bin/bash -l
+            set -x
           cd go/src
           ./all.bash
         '''
     }
     stage('Check Version') {
         sh '''#!/bin/bash -l
+            set -x
             ./go/bin/go version
         '''
     }
     stage('Compress Binaries and transfer to Cloud') {
         sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
             sh '''#!/bin/bash -l
+            set -x
                 export FILENAME="go_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
                 tar -cvf ./$FILENAME ./go
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)

@@ -43,6 +43,7 @@ node('pioneer-1-admin') {
     }
     stage('Build and transfer') {
         sh '''#!/bin/bash -l
+            set -x
             cd ninja || exit
             ./configure.py --bootstrap
             cp ./ninja ../installed_binaries/
@@ -50,12 +51,14 @@ node('pioneer-1-admin') {
     }
     stage('Check Version') {
         sh '''#!/bin/bash -l
+            set -x
             ./installed_binaries/ninja --version
         '''
     }
     stage('Compress Binaries and transfer to Cloud') {
         sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
             sh '''#!/bin/bash -l
+            set -x
                 export FILENAME="ninja-build_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
                 tar -cvf ./$FILENAME ./installed_binaries
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)

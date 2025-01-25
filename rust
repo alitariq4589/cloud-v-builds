@@ -51,12 +51,14 @@ node('pioneer-1-admin') {
     }
     stage('Run configure') {
         sh '''#!/bin/bash -l
+            set -x
             cd rust
             ./configure --set install.prefix=$(readlink -f ../installed_binaries) --set install.sysconfdir=$(readlink -f ../rust_config)
         '''
     }
     stage('make') {
         sh '''#!/bin/bash -l
+            set -x
             cd rust || exit
             ./x.py build && ./x.py install
             git config --global http.version HTTP/2
@@ -64,12 +66,14 @@ node('pioneer-1-admin') {
     }
     stage('Check Version') {
         sh '''#!/bin/bash -l
+            set -x
             ./installed_binaries/bin/rustc --version
         '''
     }
     stage('Compress Binaries and transfer to Cloud') {
         sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
             sh '''#!/bin/bash -l
+            set -x
                 export FILENAME="rust_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
                 tar -cvf ./$FILENAME ./installed_binaries
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)

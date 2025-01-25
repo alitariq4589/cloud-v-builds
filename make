@@ -50,6 +50,7 @@ node('pioneer-1-admin') {
 
     stage('Run configure') {
         sh '''#!/bin/bash -l
+            set -x
             cd make
             ./bootstrap
             ./configure --prefix=$(readlink -f ../installed_binaries)
@@ -57,6 +58,7 @@ node('pioneer-1-admin') {
     }
     stage('make and make check') {
         sh '''#!/bin/bash -l
+            set -x
           cd make
           make -j$(nproc)
           # make check # Takes too much time so I am skipping this
@@ -65,12 +67,14 @@ node('pioneer-1-admin') {
     }
     stage('Check Version') {
         sh '''#!/bin/bash -l
+            set -x
             ./installed_binaries/bin/make --version
         '''
     }
     stage('Compress Binaries and transfer to Cloud') {
         sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
             sh '''#!/bin/bash -l
+            set -x
                 export FILENAME="make_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
                 tar -cvf ./$FILENAME ./installed_binaries
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)
