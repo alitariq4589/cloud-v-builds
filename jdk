@@ -55,7 +55,7 @@ sudo apt-get update && sudo apt-get upgrade -y
         sh '''#!/bin/bash -l
             set -x
             cd jdk
-            bash configure --prefix=$(readlink -f ../installed_binaries) --openssl-no-asm --dest-cpu=riscv64
+            bash configure --prefix=$(readlink -f ../installed_binaries)
         '''
     }
     stage('make') {
