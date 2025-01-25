@@ -4,8 +4,10 @@ node('pioneer-1-admin') {
     }
     stage('Installing Dependencies') {
         sh '''#!/bin/bash
+            set -x
             sudo apt-get update
-            sudo apt-get install python3 g++-12 gcc-12 make python3-pip -y
+            sudo apt-get install python3 curl python3-pip -y
+            python3 -m pip install --user mercurial --break-system-packages
         '''
     }
     stage('Run system_info') {
@@ -43,52 +45,19 @@ node('pioneer-1-admin') {
     }
     stage('Setting Directories and clone') {
         sh '''#!/bin/bash
-            mkdir installed_binaries
+            set -x
             git config --global http.version HTTP/1.1
-            git clone --branch main --single-branch --depth=1 https://github.com/nodejs/node.git
+            python3 bootstrap.py --vcs=git
             git config --global http.version HTTP/2
         '''
     }
 
-    stage('Run configure') {
+    stage('Build') {
         sh '''#!/bin/bash -l
             set -x
-            cd node
-            ./configure --prefix=$(readlink -f ../installed_binaries) --openssl-no-asm --dest-cpu=riscv64
+            cd mozilla-unified
+            hg up -C central
+            ./mach build
         '''
-    }
-    stage('make') {
-        sh '''#!/bin/bash -l
-            set -x
-          cd node
-          make -j32
-        '''
-    }
-    stage('make install') {
-      sh '''#!/bin/bash -l
-            set -x
-          cd node
-          make install
-      '''
-    }
-    stage('Check Version') {
-        sh '''#!/bin/bash -l
-            set -x
-            ./installed_binaries/bin/node --version
-        '''
-    }
-    stage('Compress Binaries and transfer to Cloud') {
-        sshagent(credentials: ['SSH_CLOUD_V_STORE_ID']){
-            sh '''#!/bin/bash -l
-            set -x
-                export FILENAME="node_$(date -u +"%H%M%S_%d%m%Y").tar.gz"
-                tar -cvf ./$FILENAME ./installed_binaries
-                eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)
-                ssh cloud-store 'mkdir -p /var/www/nextcloud/data/admin/files/cloud-v-builds/node'
-                ssh cloud-store 'rm /var/www/nextcloud/data/admin/files/cloud-v-builds/node/*' # Removing older builds
-                scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/cloud-v-builds/node/
-                ssh cloud-store 'sudo -u www-data php /var/www/nextcloud/occ files:scan --path="admin/files"'
-            '''
-        }
     }
 }
