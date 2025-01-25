@@ -4,7 +4,8 @@ node('pioneer-1-admin') {
     }
     stage('Installing Dependencies') {
         sh '''#!/bin/bash
-            export DEBIAN_FRONTEND=noninteractive sudo apt-get update && sudo apt-get upgrade -y
+            export DEBIAN_FRONTEND=noninteractive
+sudo apt-get update && sudo apt-get upgrade -y
             sudo apt-get install gcc make git -y
         '''
     }

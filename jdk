@@ -4,7 +4,8 @@ node('pioneer-1-admin') {
     }
     stage('Installing Dependencies') {
         sh '''#!/bin/bash
-            export DEBIAN_FRONTEND=noninteractive sudo apt-get update && sudo apt-get upgrade -y
+            export DEBIAN_FRONTEND=noninteractive
+sudo apt-get update && sudo apt-get upgrade -y
             sudo apt-get install build-essential autoconf libfreetype6-dev gcc clang libfontconfig-dev libcups2-dev libx11-dev libxext-dev libxrender-dev libxrandr-dev libasound2-dev libffi-dev make autoconf -y
         '''
     }
