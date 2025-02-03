@@ -5,7 +5,7 @@ node('pioneer-1-admin') {
     stage('Installing Dependencies') {
         sh '''#!/bin/bash
             export DEBIAN_FRONTEND=noninteractive
-sudo apt-get update && sudo apt-get upgrade -y
+            sudo apt update
             sudo apt-get install git curl pkg-config g++ libssl-dev ninja-build make cmake -y
         '''
     }

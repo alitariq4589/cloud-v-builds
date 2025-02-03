@@ -6,7 +6,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash
             set -x
             export DEBIAN_FRONTEND=noninteractive
-sudo apt-get update && sudo apt-get upgrade -y
+            sudo apt update
             sudo apt-get install python3 curl python3-pip -y
             python3 -m pip install --user mercurial --break-system-packages
         '''
