@@ -48,6 +48,7 @@ node('pioneer-1-admin') {
             set -x
             mkdir installed_binaries
             git clone git://git.sv.gnu.org/coreutils
+            cd coreutils
             git pull
             git submodule update --recursive --remote
         '''
