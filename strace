@@ -6,7 +6,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash
             export DEBIAN_FRONTEND=noninteractive
             sudo apt update
-            sudo apt-get install autoconf git -y
+            sudo apt-get -y install autoconf git
         '''
     }
     stage('Run system_info') {
