@@ -7,7 +7,7 @@ node('pioneer-1-admin') {
             set -x
             export DEBIAN_FRONTEND=noninteractive
             sudo apt-get update
-            sudo apt-get install -y autoconf autopoint wget git
+            sudo apt-get install -y autoconf autopoint wget git texinfo
         '''
     }
     stage('Run system_info') {
