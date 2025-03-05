@@ -6,7 +6,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash
             export DEBIAN_FRONTEND=noninteractive
             sudo apt update
-            sudo apt-get install golang gcc -y
+            sudo apt-get install -y golang gcc
         '''
     }
     stage('Run system_info') {
