@@ -7,7 +7,7 @@ node('pioneer-1-admin') {
             set -x
             export DEBIAN_FRONTEND=noninteractive
             sudo apt update
-            sudo apt-get install gcc make git -y
+            sudo apt-get -y install gcc make git
         '''
     }
     stage('Run system_info') {
