@@ -6,7 +6,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash
             export DEBIAN_FRONTEND=noninteractive
             sudo apt update
-            sudo apt-get install git curl pkg-config g++ libssl-dev ninja-build make cmake -y
+            sudo apt-get install -y git curl pkg-config g++ libssl-dev ninja-build make cmake
         '''
     }
     stage('Setting Directories and clone') {
