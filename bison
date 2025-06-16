@@ -6,7 +6,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash
             export DEBIAN_FRONTEND=noninteractive
             sudo apt-get update
-            sudo apt-get install autoconf automake autopoint flex gperf graphviz help2man texinfo -y
+            sudo apt-get install -y autoconf automake autopoint flex gperf graphviz help2man texinfo
         '''
     }
     stage('Run system_info') {
