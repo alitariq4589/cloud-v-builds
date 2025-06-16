@@ -8,7 +8,7 @@ node('pioneer-1-admin') {
             sh '''#!/bin/bash -l
             set -x
                 source ~/.bashrc
-                export FILENAME="file4.txt"
+                export FILENAME="test-file.txt"
                 touch "$FILENAME"
                 eval $(keychain --eval --agents ssh ~/.ssh/cloud-store-key)
                 scp $FILENAME cloud-store:/var/www/nextcloud/data/admin/files/cloud-v-builds
