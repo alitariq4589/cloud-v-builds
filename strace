@@ -53,6 +53,7 @@ node('pioneer-1-admin') {
     stage('Run configure') {
         sh '''#!/bin/bash -l
             set -x
+            export LDFLAGS='-static -pthread'
             cd strace
             ./bootstrap
             ./configure --prefix=$(readlink -f ../installed_binaries)
@@ -62,6 +63,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash -l
             set -x
           cd strace | exit 1
+          ls
           make -j32
           # make check # Takes too much time so I am skipping this
           make install
