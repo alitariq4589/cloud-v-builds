@@ -62,7 +62,7 @@ node('pioneer-1-admin') {
     stage('make and make check') {
         sh '''#!/bin/bash -l
             set -x
-          cd strace | exit 1
+          cd strace
           ls
           make -j32
           # make check # Takes too much time so I am skipping this
