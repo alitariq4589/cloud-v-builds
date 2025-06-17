@@ -6,7 +6,7 @@ node('pioneer-1-admin') {
         sh '''#!/bin/bash
             export DEBIAN_FRONTEND=noninteractive
             sudo apt-get update
-            sudo apt-get install -y python3 g++-12 gcc-12 make python3-pip build-essential python3-distutils git
+            sudo apt-get install -y python3 g++-12 gcc-12 make python3-pip build-essential python3-setuptools git
         '''
     }
     stage('Run system_info') {
